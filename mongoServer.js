@@ -186,7 +186,7 @@ app.get('/getswitch/:uniqueuser_id/:uniqueHw_id',function(req,res){
 
 				// removing unwanted characters from the text stream, so that only "true", "false" are left
 				// coz only the sequence is required
-				var tempdata2 = tempdata.replace(/[^a-zA-Z]/g, " ").replace(/room/g, " ").replace(/  +/g, ' ').split(" ");
+				var tempdata2 = tempdata.replace(/[^a-zA-Z]/g, " ").replace(/room/g, " ").replace(/ {2}+/g, ' ').split(" ");
 
 				var arr=[];
 
@@ -238,18 +238,20 @@ app.get('/authenticateViaApp/:userId/:passwd',function(req,res){
 			else{
 				res.send("N");
 			}
+		});
+		db.close();
 	});
 });
 
 app.post('/authenticationPOST', urlencodedParser, function(req,res){
 	var rcvd_data = JSON.parse(req.body.message);
 	console.log("got in console = "+rcvd_data);
+	res.send("response = "+rcvd_data);
 	/*currUserHouseData.wifiCredentials.ssid = rcvd_data.wifi_SSID;
 	currUserHouseData.wifiCredentials.pwd = rcvd_data.wifi_password;
 	var myquery = { userId: currUser.userId };
 	var newvalues = { $set: {wifiCredentials: currUserHouseData.wifiCredentials} };
 	updateConfigDatabase(myquery,newvalues);*/
-	res.send("response = "+rcvd_data);
 });
 /**	--------------------------------- **/
 
