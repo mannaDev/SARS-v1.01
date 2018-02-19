@@ -224,11 +224,34 @@ app.get('/setswitch/:uniqueuser_id/:switchDetails',function(req,res){
 *
 **/
 
-/**
-*
-*		THE SERVER PART FOR THE APP
-*
-**/
+/** 	THE SERVER PART FOR THE APP   **/
+app.get('/authenticateViaApp/:userId/:passwd',function(req,res){
+	var query = {userId: req.params.userId, password: req.params.passwd};
+	MongoClient.connect(url,function(err, db){
+		var dbo = db.db(databaseName);
+		if (err) throw err;
+		dbo.collection("users").find(query).toArray(function(err, result) {
+			if (err) throw err;
+			if(result.length){
+				res.send("Y");
+			}
+			else{
+				res.send("N");
+			}
+	});
+});
+
+app.post('/authenticationPOST', urlencodedParser, function(req,res){
+	var rcvd_data = JSON.parse(req.body.message);
+	console.log("got in console = "+rcvd_data);
+	/*currUserHouseData.wifiCredentials.ssid = rcvd_data.wifi_SSID;
+	currUserHouseData.wifiCredentials.pwd = rcvd_data.wifi_password;
+	var myquery = { userId: currUser.userId };
+	var newvalues = { $set: {wifiCredentials: currUserHouseData.wifiCredentials} };
+	updateConfigDatabase(myquery,newvalues);*/
+	res.send("response = "+rcvd_data);
+});
+/**	--------------------------------- **/
 
 var server = app.listen(8080, function () {  
   var host = server.address().address
