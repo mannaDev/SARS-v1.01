@@ -186,7 +186,7 @@ app.get('/getswitch/:uniqueuser_id/:uniqueHw_id',function(req,res){
 
 				// removing unwanted characters from the text stream, so that only "true", "false" are left
 				// coz only the sequence is required
-				var tempdata2 = tempdata.replace(/[^a-zA-Z]/g, " ").replace(/room/g, " ").replace(/ {2}+/g, ' ').split(" ");
+				var tempdata2 = tempdata.replace(/[^a-zA-Z]/g, " ").replace(/room/g, " ").replace(/ +/g, ' ').trim().split(" ");
 
 				var arr=[];
 
